@@ -37,6 +37,8 @@ export class Order {
   @Column({ nullable: true })
   shippingAddress: string | null;
 
+  invoiceAddress: string | null;
+
   @Column({ nullable: true })
   shippingAddressSetAt: Date | null;
 
@@ -76,5 +78,20 @@ export class Order {
 
     this.status = OrderStatus.PAID;
     this.paidAt = new Date();
+  }
+
+  setInvoiceAddress(invoiceAddress: string) {
+    if (invoiceAddress === '') {
+      throw new Error('Invoice address is required');
+    }
+
+    if (invoiceAddress.length > 100) {
+      throw new Error(
+        'Invoice address must be less than or equal to 100 characters',
+      );
+    }
+
+    this.status = OrderStatus.INVOICE_ADDRESS_SET;
+    this.invoiceAddress = invoiceAddress;
   }
 }
