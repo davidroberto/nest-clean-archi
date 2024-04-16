@@ -1,3 +1,4 @@
+import { OrderStatus } from '../enum/order-status.enum';
 import { Order } from '../entity/order.entity';
 import { OrderRepositoryInterface } from '../port/order.repository.interface';
 import { SetOrderShippingAddressService } from './set-order-shipping-address.service';
@@ -25,6 +26,22 @@ describe('set order shipping address', () => {
         shippingAddress: '123 Main St.',
       });
 
-    expect(updatedOrder.shippingAddress).toBe('124 Main St.');
+    expect(updatedOrder.shippingAddress).toBe('123 Main St.');
+    expect(updatedOrder.status).toBe(OrderStatus.SHIPPING_ADDRESS_SET);
+  });
+
+  it('should throw an error when the shipping address is empty', async () => {
+    const setOrderShippingAddressService = new SetOrderShippingAddressService(
+      orderRepositoryMock,
+    );
+
+    try {
+      await setOrderShippingAddressService.setOrderShippingAddress({
+        orderId: '123',
+        shippingAddress: '',
+      });
+    } catch (err) {
+      expect(err.message).toEqual('Shipping address is required');
+    }
   });
 });
