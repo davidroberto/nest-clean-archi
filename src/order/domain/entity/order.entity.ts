@@ -15,6 +15,7 @@ export class Order {
     this.orderItems = orderItems;
 
     this.status = OrderStatus.CART;
+    this.createdAt = new Date();
   }
 
   @CreateDateColumn()
@@ -23,7 +24,7 @@ export class Order {
   @PrimaryGeneratedColumn()
   id: string;
 
-  @Column()
+  @Column({ nullable: true })
   price: number;
 
   @Column()
@@ -45,7 +46,7 @@ export class Order {
   @Column()
   status: OrderStatus;
 
-  @Column()
+  @Column({ nullable: true })
   paidAt: Date | null;
 
   getOrderTotalPrice(): number {

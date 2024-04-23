@@ -16,8 +16,8 @@ export default class OrderController {
     return this.createOrderService.createOrder(createOrderDto);
   }
 
-  // @Get()
-  // async getOrders(): Promise<Order[]> {
-  //   return this.getOrdersService.getOrders();
-  // }
+  @Get()
+  async getOrders(): Promise<Order[]> {
+    return this.getOrdersService.getOrders();
+  }
 }
