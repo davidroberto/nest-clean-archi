@@ -7,6 +7,7 @@ import { OrderRepositoryInterface } from './domain/port/order.repository.interfa
 import { Order } from './domain/entity/order.entity';
 import { OrderItem } from './domain/entity/order-item.entity';
 import { GetOrdersService } from './domain/use-case/get-orders.service';
+import { EventEmitter2 } from '@nestjs/event-emitter';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Order, OrderItem])],
@@ -18,10 +19,10 @@ import { GetOrdersService } from './domain/use-case/get-orders.service';
     },
     {
       provide: CreateOrderService,
-      useFactory: (orderRepository: OrderRepositoryInterface) => {
-        return new CreateOrderService(orderRepository);
+      useFactory: (orderRepository: OrderRepositoryInterface, eventEmitter) => {
+        return new CreateOrderService(orderRepository, eventEmitter);
       },
-      inject: ['OrderRepositoryInterface'],
+      inject: ['OrderRepositoryInterface', EventEmitter2],
     },
 
     {
